@@ -20,30 +20,23 @@ const likePost = async (data) => {
     })
 }
 
-const[likesAmount,setLikesAmount]=useState(null)
+const[likesAmount,setLikesAmount]=useState(0)
 
+const getLikes = async ()=> {
+    const likeAmount = query(likeRef,where('likeId','==',props.post.id))
+    const snap = await getCountFromServer(likeAmount)
+    const snapCount = snap.data().count
+    setLikesAmount(snapCount)
+}
 
+const ifAlreadyLike = async ()=> {
+    const likeAmount = query(likeRef,where('userId','==',user.uid))
+    const snap = await getCountFromServer(likeAmount)
+    const snapCount = snap.data().count
+    console.log(snapCount)
+}
 
-const[alreadyLike,setAlreadyLike]=useState(0)
-
-
-
-useEffect((props,user,likeRef) => {
-
-    const getLikes = async ()=> {
-        const likeAmount = query(likeRef,where('likeId','==',props.post.id))
-        const snap = await getCountFromServer(likeAmount)
-        const snapCount = snap.data().count
-        setLikesAmount(snapCount)
-    }
-
-    const ifAlreadyLike = async ()=> {
-        const likeAmount = query(likeRef,where('userId','==',user.uid))
-        const snap = await getCountFromServer(likeAmount)
-        const snapCount = snap.data().count
-        setAlreadyLike(snapCount)
-    }
-
+useEffect(() => {
     getLikes()
     ifAlreadyLike()
 }, []);
@@ -56,11 +49,8 @@ useEffect((props,user,likeRef) => {
             <div className='post__data'>
             <p>From: @{props.post.username.split("@")[0]}</p>
                 <div className='post__data-like'>
-                {alreadyLike === 0 ?
-                <button onClick={()=>{likePost(props.post.id)}}>&#128077;</button> :
-                <button disabled onClick={()=>{likePost(props.post.id)}}>&#128077;</button>
-                }
-                {likesAmount ? <p>Likes: {likesAmount}</p>:null}
+                <button onClick={()=>{likePost(props.post.id)}}>&#128077;</button> 
+                {likesAmount > 0 ? <p>Likes:{likesAmount}</p>:null}
                 </div>
             </div>
     </div>
