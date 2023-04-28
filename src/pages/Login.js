@@ -60,22 +60,22 @@ const Login = () => {
 
   return (
     <div className='login__conteiner'>
-        <div className='login__login'>
-          <div className='login__login-display'>
+        
+          <div className='login__display'>
+            <h4>Sign up</h4>
             <input onChange={(e)=>{setSignUser(e.target.value)}} placeholder='mail..'></input>
             <input onChange={(e)=>{setSignPassword(e.target.value)}} placeholder='password..'></input>
             {signMessage}
             <button onClick={()=>{makeSign()}}>SIGN UP</button>
           </div>
-        </div>
-        <div className='login__login'>
-          <div className='login__login-display'>
+          <div className='login__display'>
+            <h4>Login</h4>
             <input onChange={(e)=>{setLoginUser(e.target.value)}} placeholder='mail..'></input>
             <input onChange={(e)=>{setLoginPassword(e.target.value)}} placeholder='password..'></input>
             {loginMessage}
             <button onClick={()=>{makeLogin()}}>LOGIN</button>
           </div>
-        </div>
+        
     </div>
   )
 }

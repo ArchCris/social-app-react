@@ -6,6 +6,7 @@ import {addDoc, collection} from 'firebase/firestore'
 import { auth,db } from '../../config/firebase'
 import {useAuthState} from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
+import '../../styles/Form.css'
 
 
 const Form = () => {
@@ -35,7 +36,7 @@ const Form = () => {
     }
 
   return (
-    <form onSubmit={handleSubmit(createPost)}>
+    <form className='form__conteiner' onSubmit={handleSubmit(createPost)}>
         <input placeholder='Title..' {...register('title')}></input>
         <p>{errors.title?.message}</p>
         <textarea placeholder='Descriptio..' {...register('description')}></textarea>

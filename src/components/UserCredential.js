@@ -21,11 +21,12 @@ const UserCredential = () => {
         // An error happened.
         });
     }
-
+    
+    const userName = user.email.split('@')[0]
     
   return (
     <div>
-    <div>{user === null ? "no" : user.email}</div>
+    <div>{userName === null ? "no" : userName}</div>
     <button onClick={()=>{logout()}}>Sign Out</button>
     </div>
   )

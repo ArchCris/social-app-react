@@ -1,8 +1,12 @@
-.home__conteiner{
+.createpost__conteiner{
     min-height: 90vh;
     background-color: var(--tertiary-color);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+.home__card{
+    margin: 1rem;
+    background-color: red;
 }
