@@ -8,8 +8,9 @@ import '../styles/Post.css'
 
 
 const Post = (props) => {
-  
+
 const likeRef = collection(db,'likes')
+
 const [user] = useAuthState(auth)
 
 const likePost = async (data) => {
@@ -21,23 +22,28 @@ const likePost = async (data) => {
 
 const[likesAmount,setLikesAmount]=useState(null)
 
-const getLikes = async ()=> {
-    const likeAmount = query(likeRef,where('likeId','==',props.post.id))
-    const snap = await getCountFromServer(likeAmount)
-    const snapCount = snap.data().count
-    setLikesAmount(snapCount)
-}
+
 
 const[alreadyLike,setAlreadyLike]=useState(0)
 
-const ifAlreadyLike = async ()=> {
-    const likeAmount = query(likeRef,where('userId','==',user.uid))
-    const snap = await getCountFromServer(likeAmount)
-    const snapCount = snap.data().count
-    setAlreadyLike(snapCount)
-}
 
-useEffect(() => {
+
+useEffect((props,user,likeRef) => {
+
+    const getLikes = async ()=> {
+        const likeAmount = query(likeRef,where('likeId','==',props.post.id))
+        const snap = await getCountFromServer(likeAmount)
+        const snapCount = snap.data().count
+        setLikesAmount(snapCount)
+    }
+
+    const ifAlreadyLike = async ()=> {
+        const likeAmount = query(likeRef,where('userId','==',user.uid))
+        const snap = await getCountFromServer(likeAmount)
+        const snapCount = snap.data().count
+        setAlreadyLike(snapCount)
+    }
+
     getLikes()
     ifAlreadyLike()
 }, []);
