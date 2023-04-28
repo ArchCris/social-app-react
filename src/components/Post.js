@@ -22,7 +22,7 @@ const likePost = async (data) => {
 
 const[likesAmount,setLikesAmount]=useState(0)
 
-useEffect(() => {
+useEffect((likeRef) => {
 
     const getLikes = async ()=> {
         const likeAmount = query(likeRef,where('likeId','==',props.post.id))
