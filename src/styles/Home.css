@@ -1,0 +1,12 @@
+.home__conteiner{
+    height: 90vh;
+    background-color: lightblue;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.home__card{
+    margin: 1rem;
+    background-color: red;
+}

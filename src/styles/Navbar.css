@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@600&display=swap');
+
+.Navbar__conteiner{
+    height: 10vh;
+    width: 100%;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.Navbar__conteiner a{
+    color: var(--tertiary-color);
+    text-decoration: none;
+    
+}

@@ -1,13 +1,17 @@
-body {
+*,*::before,*::after{
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Work Sans', sans-serif;
 }
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:wght@600&display=swap');
+:root {
+  --primary-color:#005689;
+  --secondary-color:#007cb9;
+  --tertiary-color:#d5eeff;
+}
+[data-theme="dark"]{
+  --primary-color:#E74646;
+  --secondary-color:#FA9884;
+  --tertiary-color:#FFE5CA;
 }
