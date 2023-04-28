@@ -22,21 +22,22 @@ const likePost = async (data) => {
 
 const[likesAmount,setLikesAmount]=useState(0)
 
-const getLikes = async ()=> {
-    const likeAmount = query(likeRef,where('likeId','==',props.post.id))
-    const snap = await getCountFromServer(likeAmount)
-    const snapCount = snap.data().count
-    setLikesAmount(snapCount)
-}
-
-const ifAlreadyLike = async ()=> {
-    const likeAmount = query(likeRef,where('userId','==',user.uid))
-    const snap = await getCountFromServer(likeAmount)
-    const snapCount = snap.data().count
-    console.log(snapCount)
-}
-
 useEffect(() => {
+
+    const getLikes = async ()=> {
+        const likeAmount = query(likeRef,where('likeId','==',props.post.id))
+        const snap = await getCountFromServer(likeAmount)
+        const snapCount = snap.data().count
+        setLikesAmount(snapCount)
+    }
+
+    const ifAlreadyLike = async ()=> {
+        const likeAmount = query(likeRef,where('userId','==',user.uid))
+        const snap = await getCountFromServer(likeAmount)
+        const snapCount = snap.data().count
+        console.log(snapCount)
+    }
+
     getLikes()
     ifAlreadyLike()
 }, []);
