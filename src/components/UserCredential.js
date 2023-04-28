@@ -3,6 +3,7 @@ import { signOut } from "@firebase/auth";
 import {useAuthState} from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../config/firebase'
+import '../styles/Credential.css'
 
 
 
@@ -13,7 +14,6 @@ const UserCredential = () => {
     const [user] = useAuthState(auth)
 
     const logout = () =>{
-    
         signOut(auth).then(() => {
             navigate('/login')
         // Sign-out successful.
@@ -25,7 +25,7 @@ const UserCredential = () => {
     const userName = user.email.split('@')[0]
     
   return (
-    <div>
+    <div className='credential__conteiner'>
     <div>{userName === null ? "no" : userName}</div>
     <button onClick={()=>{logout()}}>Sign Out</button>
     </div>

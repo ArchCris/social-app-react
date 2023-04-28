@@ -8,5 +8,6 @@
 }
 .home__card{
     margin: 1rem;
-    background-color: red;
+    padding: 1rem;
+    background-color: lightskyblue;
 }

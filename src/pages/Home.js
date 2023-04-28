@@ -1,15 +1,18 @@
 import React from 'react'
 import '../styles/Home.css'
-import { db } from '../config/firebase';
+import { db,auth } from '../config/firebase';
 import { getDocs,collection } from 'firebase/firestore';
 import { useEffect,useState } from 'react';
-
-
+import {useAuthState} from 'react-firebase-hooks/auth'
+import '../styles/Post.css'
+import Post from '../components/Post';
 
 
 const Home = () => {
 
   const[posts,setPosts]=useState(null)
+  const [user] = useAuthState(auth)
+  
 
   const getDataFromDDBB = async () =>{
     const postsRef = await collection(db,'posts');
@@ -21,17 +24,16 @@ const Home = () => {
     getDataFromDDBB()
   }, []);
 
+
   return (
     <div className='home__conteiner'>
-     {posts ? posts.map((post,key)=>{
-      return(
-        <div className='home__card' key={key}>
-        <p>{post.title}</p>
-        <p>{post.description}</p>
-        <p>From: {post.username}</p>
-        </div>
-      )
-     }) : <p>Yoy need to login to see the posts</p>}
+      {user 
+      ?posts?.map((post,key)=>{
+        return(
+          <Post key={key} post={post}/>
+        )
+      }) 
+      : <p>Login to see the posts</p>}
     </div>
   )
 }
