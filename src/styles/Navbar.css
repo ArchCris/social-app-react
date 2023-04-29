@@ -12,6 +12,7 @@
     color: var(--tertiary-color);
     text-decoration: none;
     position: relative;
+    padding: .2rem;
 }
 .Navbar__conteiner a::before{
     position: absolute;

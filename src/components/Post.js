@@ -1,45 +1,47 @@
 import React from 'react'
 import '../styles/Home.css'
 import { db,auth } from '../config/firebase';
-import { collection,addDoc,query,where, getCountFromServer } from 'firebase/firestore';
+import { collection,addDoc,query,where,getDocs } from 'firebase/firestore';
 import { useEffect,useState } from 'react';
-import {useAuthState} from 'react-firebase-hooks/auth'
+import {useAuthState} from 'react-firebase-hooks/auth';
 import '../styles/Post.css'
 
 
 const Post = (props) => {
-
+//States
+const[likes,setLikes]=useState(null)
+//DDBB conection
 const likeRef = collection(db,'likes')
-
+//Auth validation
 const [user] = useAuthState(auth)
-
+//Like the post
 const likePost = async (data) => {
     await addDoc(likeRef,{
         userId: user?.uid,
         likeId: data
     })
+   
+    setLikes((prev)=>prev ? [...prev,{userId:user?.uid}] : [{uesrId:user?.uid}])
+}
+//Get the likes
+
+const queryLikes = query(likeRef,where('likeId','==',props.post.id))
+const getLikes = async ()=> {
+    try{
+    const data = await getDocs(queryLikes)
+    setLikes(data.docs.map((doc)=>({userId: doc.data().userId})))
+    }catch(err){
+        console.log(err)
+    }
 }
 
-const[likesAmount,setLikesAmount]=useState(0)
+const isAlreadyLiked = likes?.find((like)=>like.userId===user.uid)
 
-useEffect((likeRef) => {
 
-    const getLikes = async ()=> {
-        const likeAmount = query(likeRef,where('likeId','==',props.post.id))
-        const snap = await getCountFromServer(likeAmount)
-        const snapCount = snap.data().count
-        setLikesAmount(snapCount)
-    }
-
-    const ifAlreadyLike = async ()=> {
-        const likeAmount = query(likeRef,where('userId','==',user.uid))
-        const snap = await getCountFromServer(likeAmount)
-        const snapCount = snap.data().count
-        console.log(snapCount)
-    }
+useEffect(() => {
 
     getLikes()
-    ifAlreadyLike()
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, []);
  
 
@@ -50,8 +52,12 @@ useEffect((likeRef) => {
             <div className='post__data'>
             <p>From: @{props.post.username.split("@")[0]}</p>
                 <div className='post__data-like'>
-                <button onClick={()=>{likePost(props.post.id)}}>&#128077;</button> 
-                {likesAmount > 0 ? <p>Likes:{likesAmount}</p>:null}
+                {likes?.length}
+                {isAlreadyLiked ? 
+                <button disabled onClick={()=>{likePost(props.post.id)}}>&#128077;</button> 
+                :
+                <button onClick={()=>{likePost(props.post.id)}}>&#128077;</button>
+                }
                 </div>
             </div>
     </div>

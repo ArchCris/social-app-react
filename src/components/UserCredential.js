@@ -26,8 +26,8 @@ const UserCredential = () => {
     
   return (
     <div className='credential__conteiner'>
-    <div>{userName === null ? "no" : userName}</div>
-    <button onClick={()=>{logout()}}>Sign Out</button>
+    <div className='credential__user'>{userName === null ? "no" : userName}</div>
+    <button className='credential__button' onClick={()=>{logout()}}>Sign Out</button>
     </div>
   )
 }
