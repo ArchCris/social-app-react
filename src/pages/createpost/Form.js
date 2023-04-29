@@ -7,6 +7,7 @@ import { auth,db } from '../../config/firebase'
 import {useAuthState} from 'react-firebase-hooks/auth'
 import { useNavigate } from 'react-router-dom'
 import '../../styles/Form.css'
+import { getCountFromServer } from 'firebase/firestore'
 
 
 const Form = () => {
@@ -26,12 +27,20 @@ const Form = () => {
     const [user] = useAuthState(auth)
 
     const createPost = async (data) => {
+        try{
+        const docsSnap = await getCountFromServer(postsRef);
+        let postNumberResult = docsSnap.data().count
+      
         await addDoc(postsRef,{
             title: data.title,
             description: data.description,
             username: user?.email,
-            id: user?.uid
+            id: user?.uid,
+            position: postNumberResult+1
         })
+        }catch(err){
+            console.log(err)
+        }
         navigate('/')
     }
 

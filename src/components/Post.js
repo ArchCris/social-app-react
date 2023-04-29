@@ -1,7 +1,7 @@
 import React from 'react'
 import '../styles/Home.css'
 import { db,auth } from '../config/firebase';
-import { collection,addDoc,query,where,getDocs } from 'firebase/firestore';
+import { collection,addDoc,query,where,getDocs,doc,deleteDoc } from 'firebase/firestore';
 import { useEffect,useState } from 'react';
 import {useAuthState} from 'react-firebase-hooks/auth';
 import '../styles/Post.css'
@@ -24,7 +24,6 @@ const likePost = async (data) => {
     setLikes((prev)=>prev ? [...prev,{userId:user?.uid}] : [{uesrId:user?.uid}])
 }
 //Get the likes
-
 const queryLikes = query(likeRef,where('likeId','==',props.post.id))
 const getLikes = async ()=> {
     try{
@@ -34,8 +33,11 @@ const getLikes = async ()=> {
         console.log(err)
     }
 }
-
 const isAlreadyLiked = likes?.find((like)=>like.userId===user.uid)
+//Delete
+const deletePost = async (id) => {
+    await deleteDoc(doc(db,"posts", id));
+}
 
 
 useEffect(() => {
@@ -51,6 +53,7 @@ useEffect(() => {
         <p>{props.post.description}</p>
             <div className='post__data'>
             <p>From: @{props.post.username.split("@")[0]}</p>
+            <button onClick={()=>{deletePost(props.post.id)}}>DELETE</button>
                 <div className='post__data-like'>
                 {likes?.length}
                 {isAlreadyLiked ? 

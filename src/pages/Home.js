@@ -1,7 +1,7 @@
 import React from 'react'
 import '../styles/Home.css'
 import { db,auth } from '../config/firebase';
-import { getDocs,collection } from 'firebase/firestore';
+import { getDocs,collection,orderBy,doc, onSnapshot } from 'firebase/firestore';
 import { useEffect,useState } from 'react';
 import {useAuthState} from 'react-firebase-hooks/auth'
 import '../styles/Post.css'
@@ -12,12 +12,13 @@ const Home = () => {
 
   const[posts,setPosts]=useState(null)
   const [user] = useAuthState(auth)
-  
 
-  const getDataFromDDBB = async () =>{
-    const postsRef = await collection(db,'posts');
-    const docsSnap = await getDocs(postsRef);
-    setPosts(docsSnap.docs.map((doc)=>({...doc.data(),id:doc.id})))
+
+  const getDataFromDDBB = () =>{
+    const postsRef = collection(db,'posts');
+    onSnapshot((postsRef),(doc)=>{
+      setPosts(doc.docs.map((doc)=>({...doc.data(),id:doc.id})))
+    });
   }
 
   useEffect(() => {
@@ -28,7 +29,7 @@ const Home = () => {
   return (
     <div className='home__conteiner'>
       {user 
-      ?posts?.map((post,key)=>{
+      ? posts?.map((post,key)=>{
         return(
           <Post key={key} post={post}/>
         )
