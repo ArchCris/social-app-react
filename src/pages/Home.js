@@ -1,7 +1,7 @@
 import React from 'react'
 import '../styles/Home.css'
 import { db,auth } from '../config/firebase';
-import { getDocs,collection,orderBy,doc, onSnapshot } from 'firebase/firestore';
+import { collection, onSnapshot } from 'firebase/firestore';
 import { useEffect,useState } from 'react';
 import {useAuthState} from 'react-firebase-hooks/auth'
 import '../styles/Post.css'
